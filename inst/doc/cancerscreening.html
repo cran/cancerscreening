@@ -350,17 +350,15 @@ more.</p>
 <div id="key-functions-for-data-download" class="section level2">
 <h2>Key Functions for Data Download:</h2>
 <p>These functions directly call the KHIS server to download the data
-using the <code>get_analytics()</code> function and require the setting
-of KHIS credentials. See <a href="https://cancerscreening.damurka.com/articles/set-your-credentials.html">setting
+require the setting of KHIS credentials. See <a href="https://cancerscreening.damurka.com/articles/set-your-credentials.html">setting
 the credentials</a> for more information. The get analytics call is
 supported by three metadata functions that help make the data complete
 and these include the <code>get_organisation_units_metadata()</code> to
-show where the data is from,
-<code>get_category_options_metadata()</code> to group the data into
-various categories and <code>get_data_elements_metadata()</code> to show
-what the data is about.</p>
-<p>There are three cancer screening that are being tracked breast
-cancer, cervical cancer and colorectal cancer.</p>
+show where the data is from and
+<code>get_data_elements_metadata()</code> to show what the data is about
+and group the data into various categories.</p>
+<p>The cancer screening data that are being tracked breast cancer,
+cervical cancer, colorectal cancer and laboratory diagnostic data.</p>
 <div id="cervical-cancer" class="section level3">
 <h3>Cervical Cancer:</h3>
 <ul>
@@ -391,6 +389,26 @@ who receive FOBT for colorectal cancer screening tests.</li>
 <li><code>get_colorectal_colonoscopy()</code>: Retrieves data on
 individuals who receive colonoscopy for colorectal cancer screening
 tests.</li>
+</ul>
+</div>
+<div id="laboratory-data" class="section level3">
+<h3>Laboratory Data</h3>
+<ul>
+<li><code>get_lab_fluid_cytology()</code>: Retrieve data on fluid
+cytology done in the lab. They include Ascitic fluid, cerebral spinal
+fluid, pleural fluid and urine.</li>
+<li><code>get_lab_tissue_histology()</code>: Retrieve data on tissue
+histology done in the lab. They include Breast, colorectal, oesphageal,
+head &amp; neck, hepatobiliary, lymph nodes, oral, ovary, prostate, skin
+and uterine tissues;</li>
+<li><code>get_lab_bone_marrow()</code>: Retrieve data on bone marrow
+done in the lab.</li>
+<li><code>get_lab_fna()</code>: Retrieve data on fine-needle aspiration
+done in the lab. They include breast, liver, lymph node and
+thyroid.</li>
+<li><code>get_lab_smears()</code>Retrieve data on smears done in the
+lab. They include pap smear, tissue impressions, and touch
+preparation.</li>
 </ul>
 <p>To get the data the following calls can be made</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Get data for those screening for cervical cancer</span></span>
