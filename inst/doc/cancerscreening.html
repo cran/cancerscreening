@@ -49,7 +49,7 @@ overflow: visible;
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -340,8 +340,6 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<pre><code>Code chunks will not be evaluated, because:
-Set credential unsuccessful.</code></pre>
 <p>This article takes a quick tour of the main features of
 cancerscreening.</p>
 <p>Remember to see <a href="https://cancerscreening.damurka.com/articles/index.html">the
@@ -351,14 +349,9 @@ more.</p>
 <h2>Key Functions for Data Download:</h2>
 <p>These functions directly call the KHIS server to download the data
 require the setting of KHIS credentials. See <a href="https://cancerscreening.damurka.com/articles/set-your-credentials.html">setting
-the credentials</a> for more information. The get analytics call is
-supported by three metadata functions that help make the data complete
-and these include the <code>get_organisation_units_metadata()</code> to
-show where the data is from and
-<code>get_data_elements_metadata()</code> to show what the data is about
-and group the data into various categories.</p>
-<p>The cancer screening data that are being tracked breast cancer,
-cervical cancer, colorectal cancer and laboratory diagnostic data.</p>
+the credentials</a> for more information. The cancer screening data that
+are being tracked breast cancer, cervical cancer, colorectal cancer and
+laboratory diagnostic data.</p>
 <div id="cervical-cancer" class="section level3">
 <h3>Cervical Cancer:</h3>
 <ul>
@@ -411,17 +404,70 @@ lab. They include pap smear, tissue impressions, and touch
 preparation.</li>
 </ul>
 <p>To get the data the following calls can be made</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Get data for those screening for cervical cancer</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>cervical_screened <span class="ot">&lt;-</span> <span class="fu">get_cervical_screened</span>(<span class="st">&#39;2022-01-01&#39;</span>, <span class="at">end_date =</span> <span class="st">&#39;2022-06-30&#39;</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>cervical_screened</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># Get data for those screening for colorectal cancer using FOBT</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>colorectal_screened <span class="ot">&lt;-</span> <span class="fu">get_colorectal_fobt</span>(<span class="st">&#39;2022-01-01&#39;</span>, <span class="at">end_date =</span> <span class="st">&#39;2022-06-30&#39;</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>colorectal_screened</span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co"># Get data for those screening for breast cancer using mammogram</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>breast_screened <span class="ot">&lt;-</span> <span class="fu">get_breast_mammogram</span>(<span class="st">&#39;2022-01-01&#39;</span>, <span class="at">end_date =</span> <span class="st">&#39;2022-06-30&#39;</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>breast_screened</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Get data for those screening for cervical cancer</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>cervical_screened <span class="ot">&lt;-</span> <span class="fu">get_cervical_screened</span>(<span class="st">&#39;2022-01-01&#39;</span>, <span class="at">end_date =</span> <span class="st">&#39;2022-06-30&#39;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>cervical_screened</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt; # A tibble: 192 × 11</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt;    value country element   category   period     month  year quarter fiscal_year</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;   &lt;fct&gt;     &lt;fct&gt;      &lt;date&gt;     &lt;ord&gt; &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;      </span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt;  1    99 Kenya   Pap Smear Initial S… 2022-01-01 Janu…  2022 Q3      2021/2022  </span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt;  2     4 Kenya   HPV       Routine S… 2022-01-01 Janu…  2022 Q3      2021/2022  </span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt;  3   133 Kenya   Pap Smear Initial S… 2022-04-01 April  2022 Q4      2021/2022  </span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt;  4    19 Kenya   VIA       Post-trea… 2022-06-01 June   2022 Q4      2021/2022  </span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt;  5   127 Kenya   HPV       &lt;NA&gt;       2022-03-01 March  2022 Q3      2021/2022  </span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt;  6   231 Kenya   Pap Smear Initial S… 2022-05-01 May    2022 Q4      2021/2022  </span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt;  7     1 Kenya   HPV       Routine S… 2022-05-01 May    2022 Q4      2021/2022  </span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt;  8    27 Kenya   HPV       Initial S… 2022-03-01 March  2022 Q3      2021/2022  </span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt;  9   274 Kenya   Pap Smear Initial S… 2022-06-01 June   2022 Q4      2021/2022  </span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#&gt; 10   444 Kenya   HPV       &lt;NA&gt;       2022-01-01 Janu…  2022 Q3      2021/2022  </span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#&gt; # ℹ 182 more rows</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">#&gt; # ℹ 2 more variables: age_group &lt;fct&gt;, source &lt;fct&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># Get data for those screening for colorectal cancer using FOBT</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>colorectal_screened <span class="ot">&lt;-</span> <span class="fu">get_colorectal_fobt</span>(<span class="st">&#39;2022-01-01&#39;</span>, <span class="at">end_date =</span> <span class="st">&#39;2022-06-30&#39;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>colorectal_screened</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 29 × 10</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt;    value country element  age_group period     month    year quarter fiscal_year</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;   &lt;fct&gt;    &lt;fct&gt;     &lt;date&gt;     &lt;ord&gt;   &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;      </span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt;  1     4 Kenya   Positive 65-75     2022-02-01 Februa…  2022 Q3      2021/2022  </span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt;  2     5 Kenya   Positive 65-75     2022-04-01 April    2022 Q4      2021/2022  </span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt;  3     9 Kenya   Positive 65-75     2022-03-01 March    2022 Q3      2021/2022  </span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt;  4    13 Kenya   Negative 45-54     2022-03-01 March    2022 Q3      2021/2022  </span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt;  5     2 Kenya   Positive 45-54     2022-02-01 Februa…  2022 Q3      2021/2022  </span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt;  6    24 Kenya   Negative 55-64     2022-03-01 March    2022 Q3      2021/2022  </span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt;  7     5 Kenya   Negative 55-64     2022-04-01 April    2022 Q4      2021/2022  </span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt;  8     5 Kenya   Negative 45-54     2022-02-01 Februa…  2022 Q3      2021/2022  </span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt;  9    44 Kenya   Negative 45-54     2022-04-01 April    2022 Q4      2021/2022  </span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; 10    39 Kenya   Positive 55-64     2022-04-01 April    2022 Q4      2021/2022  </span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt; # ℹ 19 more rows</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt; # ℹ 1 more variable: source &lt;chr&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># Get data for those screening for breast cancer using mammogram</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>breast_screened <span class="ot">&lt;-</span> <span class="fu">get_breast_mammogram</span>(<span class="st">&#39;2022-01-01&#39;</span>, <span class="at">end_date =</span> <span class="st">&#39;2022-06-30&#39;</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>breast_screened</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 19 × 11</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt;    value country element    age_group period     month  year quarter fiscal_year</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;   &lt;fct&gt;      &lt;fct&gt;     &lt;date&gt;     &lt;ord&gt; &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;      </span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt;  1    11 Kenya   BIRADS 0-3 35-39     2022-04-01 April  2022 Q4      2021/2022  </span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt;  2     7 Kenya   BIRADS 0-3 56-74     2022-02-01 Febr…  2022 Q3      2021/2022  </span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt;  3     3 Kenya   BIRADS 0-3 35-39     2022-03-01 March  2022 Q3      2021/2022  </span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt;  4     1 Kenya   BIRADS 5   56-74     2022-04-01 April  2022 Q4      2021/2022  </span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt;  5    16 Kenya   BIRADS 0-3 56-74     2022-03-01 March  2022 Q3      2021/2022  </span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt;  6     1 Kenya   BIRADS 0-3 25-34     2022-05-01 May    2022 Q4      2021/2022  </span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt;  7     3 Kenya   BIRADS 0-3 40-55     2022-05-01 May    2022 Q4      2021/2022  </span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt;  8     6 Kenya   BIRADS 6   35-39     2022-06-01 June   2022 Q4      2021/2022  </span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt;  9     2 Kenya   BIRADS 0-3 40-55     2022-06-01 June   2022 Q4      2021/2022  </span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; 10     1 Kenya   BIRADS 0-3 40-55     2022-04-01 April  2022 Q4      2021/2022  </span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; 11     2 Kenya   BIRADS 0-3 25-34     2022-03-01 March  2022 Q3      2021/2022  </span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; 12     1 Kenya   BIRADS 4   40-55     2022-03-01 March  2022 Q3      2021/2022  </span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; 13    11 Kenya   BIRADS 0-3 40-55     2022-02-01 Febr…  2022 Q3      2021/2022  </span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; 14     2 Kenya   BIRADS 0-3 35-39     2022-02-01 Febr…  2022 Q3      2021/2022  </span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; 15     1 Kenya   BIRADS 4   40-55     2022-04-01 April  2022 Q4      2021/2022  </span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#&gt; 16     1 Kenya   BIRADS 0-3 56-74     2022-06-01 June   2022 Q4      2021/2022  </span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt; 17    11 Kenya   BIRADS 0-3 40-55     2022-03-01 March  2022 Q3      2021/2022  </span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt; 18     6 Kenya   BIRADS 5   35-39     2022-06-01 June   2022 Q4      2021/2022  </span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt; 19     2 Kenya   BIRADS 0-3 56-74     2022-05-01 May    2022 Q4      2021/2022  </span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt; # ℹ 2 more variables: source &lt;chr&gt;, category &lt;fct&gt;</span></span></code></pre></div>
 </div>
 </div>
 <div id="target-population-functions" class="section level2">
@@ -436,17 +482,40 @@ National Cancer Screening guidelines 2019</a>.</p>
 <code>get_breast_mammogram_target_population()</code>.</p>
 <p>If these function do not meet your criteria you can make your target
 population using the <code>get_filtered_population()</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Get the cervical screening target population for 2022</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>cervical_target_population <span class="ot">&lt;-</span> <span class="fu">get_cervical_target_population</span>(<span class="dv">2022</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>cervical_target_population</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># Get the colorectal cancer screening target population for 20223 by county</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>colorectal_target_population <span class="ot">&lt;-</span> <span class="fu">get_colorectal_target_population</span>(<span class="dv">2023</span>, <span class="at">level =</span> <span class="st">&#39;county&#39;</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>colorectal_target_population</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co"># Get the population of women 15-49 year for the year 2024</span></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>wra_pop <span class="ot">&lt;-</span> <span class="fu">get_filtered_population</span>(<span class="at">year =</span> <span class="dv">2024</span>, <span class="at">min_age =</span> <span class="dv">15</span>, <span class="at">max_age =</span> <span class="dv">49</span>, <span class="at">pop_sex =</span> <span class="st">&#39;female&#39;</span>)</span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>wra_pop</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Get the cervical screening target population for 2022</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>cervical_target_population <span class="ot">&lt;-</span> <span class="fu">get_cervical_target_population</span>(<span class="dv">2022</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>cervical_target_population</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 2</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;   country   target</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; 1 Kenya   1112735.</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># Get the colorectal cancer screening target population for 20223 by county</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>colorectal_target_population <span class="ot">&lt;-</span> <span class="fu">get_colorectal_target_population</span>(<span class="dv">2023</span>, <span class="at">level =</span> <span class="st">&#39;county&#39;</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>colorectal_target_population</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 47 × 3</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; # Groups:   country [1]</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt;    country county          target</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;   &lt;fct&gt;            &lt;dbl&gt;</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;  1 Kenya   Baringo          8277.</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt;  2 Kenya   Bomet           10887.</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt;  3 Kenya   Bungoma         21427.</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt;  4 Kenya   Busia           12263.</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt;  5 Kenya   Elgeyo Marakwet  6050.</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt;  6 Kenya   Embu            12288.</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt;  7 Kenya   Garissa          6872.</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt;  8 Kenya   Homa Bay        14163.</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt;  9 Kenya   Isiolo           2848.</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; 10 Kenya   Kajiado         12606.</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; # ℹ 37 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co"># Get the population of women 15-49 year for the year 2024</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>wra_pop <span class="ot">&lt;-</span> <span class="fu">get_filtered_population</span>(<span class="at">year =</span> <span class="dv">2024</span>, <span class="at">min_age =</span> <span class="dv">15</span>, <span class="at">max_age =</span> <span class="dv">49</span>, <span class="at">pop_sex =</span> <span class="st">&#39;female&#39;</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>wra_pop</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 2</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt;   country    target</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt;</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; 1 Kenya   13023053.</span></span></code></pre></div>
 </div>
 
 
